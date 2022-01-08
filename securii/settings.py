@@ -34,7 +34,8 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'https://infinite-hamlet-61178.herokuapp.com']
 
 # Application definition
-
+#heroku settings
+django_heroku.settings(locals())
 INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.admin',
@@ -42,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    #'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
     'apiservice',
     'uiservice',
     'rest_framework',
@@ -158,8 +159,7 @@ EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS=True
 
 
-#heroku settings
-django_heroku.settings(locals())
+
 
 #LOGGING
 LOGGING = {
