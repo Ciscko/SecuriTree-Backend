@@ -21,7 +21,7 @@ load_dotenv()
 from django.contrib.auth.models import User
 
 users = User.objects.filter(is_superuser=True)
-if not users[0]:
+if len(users) < 1:
     User.objects.create_superuser(last_name=str(os.getenv('SUPERUSER_LAST_NAME')), first_name=str(os.getenv('SUPERUSER_FIRST_NAME')), username=str(os.getenv('SUPERUSER_USERNAME')), email=str(os.getenv('SUPERUSER_EMAIL')), password=str(os.getenv('SUPERUSER_PASSWORD')), is_active=True, is_staff=True)
 else:
     user = users[0]
