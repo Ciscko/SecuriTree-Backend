@@ -14,7 +14,7 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'securii.settings')
 
 application = get_wsgi_application()
-""" 
+
 from dotenv import load_dotenv
 # loads the configs from .env
 load_dotenv()  
@@ -31,4 +31,4 @@ else:
     user.email = str(os.getenv('SUPERUSER_EMAIL'))
     user.save()
     user.set_password(str(os.getenv('SUPERUSER_PASSWORD'))) 
-    user.save() """
+    user.save() 
