@@ -35,7 +35,7 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'https://infinite-hamlet-61178.
 
 # Application definition
 #heroku settings
-django_heroku.settings(locals())
+
 INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.admin',
@@ -211,3 +211,5 @@ LOGGING = {
         }
     }
 }
+
+django_heroku.settings(locals())
