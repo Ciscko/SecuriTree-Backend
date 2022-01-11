@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_hierarchy(request):
-    """ Return hierarchy data """
+    """ Return hierarchy data from json field in the db draw"""
     if Hierarchy.objects.all().count() > 0:
         return Response({ 'data' : HierarchySerializer(Hierarchy.objects.all(), many=True).data })
     return Response({ 'data' : 'No data available'})
@@ -21,7 +21,7 @@ def get_hierarchy(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def upload_data(request):
-    """ Receives the file from user to upload data to db """
+    """ Receives the file from user to upload data to db, passes it to the uploader function and receives the data to add to db"""
     if('datafile' in request.FILES):
         system_data = store_file(request.FILES['datafile'], 'hierarchy/', BASE_DIR)
         if 'system_data' in system_data and  'areas' in system_data['system_data']and  'doors' in system_data['system_data'] and 'access_rules' in system_data['system_data']:
@@ -38,7 +38,7 @@ def upload_data(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def upload_users(request):
-    """ Receives the file from user to upload data to db """
+    """ Receives the file from user to upload data to db, passes it to the uploader and recives the data to add to db """
     if('datafile' in request.FILES):
         users = store_file(request.FILES['datafile'], 'users/', BASE_DIR)
         if 'registered_users' in users:
@@ -68,6 +68,7 @@ def upload_users(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_doors(request):
+    """ Return list of doors """
     if Door.objects.all().count() > 0:
         return Response({ "data" : DoorSerializer(Door.objects.all(), many=True).data })
     return Response({ "status" : 'No data available' })
@@ -88,6 +89,7 @@ def get_user(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def lock_door(request):
+    """  Receives door id and status and updates the database """
     if 'door_id' in request.data and 'state' in  request.data:
         door_id = request.data['door_id']
         state = request.data['state']
@@ -175,6 +177,7 @@ def add_data(data):
                     print("Child area with that id does not exist!.")
             
         for door in doors:
+            """  Adding the area relationships to the door before storing """
             found = False
             try:
                 area = Area.objects.get(id =  door['parent_area'])
@@ -187,6 +190,7 @@ def add_data(data):
                 print("Parent area not found!")
 
         for accessrule in access_rules:
+            """  Adding the accessrule relationships to the door before storing """
             AccessRule(id = accessrule['id'], name = accessrule['name']).save()
             found = False
             try:
@@ -211,6 +215,8 @@ def add_data(data):
     return False
    
 def read_data():
+    """  Reads the list of the entities from the database and nests the
+     accessrules and doors to their areas based on their relational keys """
     doors = DoorSerializer(Door.objects.all(), many=True).data
     areas = AreaSerializer(Area.objects.all(), many=True).data
     access_rules = AccessRulesSerializer(AccessRule.objects.all(), many=True).data 
@@ -234,12 +240,19 @@ def read_data():
 
 
 def create_hierarchy(areas, dic):
-    """ Recursive method to build the hierarchy of nested objects """
+    """ Recursive method to build the hierarchy of nested objects, the base case
+     is to return an object that has zero children areas, 
+     else pass the children objects to the same function and add them as children to the base object,
+     this will attach all the child areas to their parents and ensure the complex hierarchy is constructed """
+
     if(len(dic['child_area_ids']) < 1):
+        """  Base case returns dictionary if there are no children """
         return dic
     else:
         child = {}
         dic['child_areas'] = []
+        """ For each of child area id, search for the details of the area with same id and
+         nest it inside the parent area and recursively do that for each child """
         for id in dic['child_area_ids']:
             for area in areas:
                 if(id == area['id']):

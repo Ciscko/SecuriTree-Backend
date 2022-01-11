@@ -75,6 +75,7 @@ class ViewsTests(TestCase):
         self.assertTrue( not response.data['data'][0]['data']['parent_area'] )
     
     def test_upload_data(self):
+        """ Testing if the upload url is able to respond to errors and correct posts """
         res = self.client.post('/api/upload/', { })
         print(res.data)
         self.assertTrue(res.status_code == 200)
@@ -93,6 +94,7 @@ class ViewsTests(TestCase):
         self.assertTrue('System data uploaded successfully' in res.data['status'])
     
     def test_upload_users(self):
+        """ Testing if the users upload url is able to respond to errors and correct posts """
         res = self.client.post('/api/upload_users/', { })
         #print(res.data)
         self.assertTrue(res.status_code == 200)
@@ -111,16 +113,19 @@ class ViewsTests(TestCase):
         self.assertTrue('successfully' in res.data['status'])
         
     def test_get_doors(self):
+        """ Testing if the api returns available doors """
         res = self.client.get('/api/doors/')
         self.assertTrue(res.status_code == 200)
 
     def test_get_user(self):
+        """ Testing if the api returns the user context """
         res = self.client.get('/api/user/')
         msg = 'No user data available in the request, you need to be logged in first!'
         self.assertTrue(res.status_code == 200)
         self.assertTrue(res.data['user'] == msg)
     
     def test_lock_door(self):
+        """ Testing if the api allows changing the status of the door as open or closed """
         res = self.client.get('/api/lock_door/', {})
         self.assertTrue(res.status_code != 200)
         
