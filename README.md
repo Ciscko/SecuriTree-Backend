@@ -3,6 +3,9 @@ SecuriTree-Backend
 This is the Backend API for the securiTree application. This api exposes a list of endpoints which are used by the frontend application to fetch hierarchy data, upload the data from json, manage doors and authenticate the users for every request to the application.
 
 The high-level architectural overview of the whole application is as shown:
+
+![ARCHITECTURE](https://user-images.githubusercontent.com/32708966/149041400-982c55e2-39f2-4878-8d47-3713a4d54bbd.png)
+
  
 The api runs inside a docker container which has got a nginx reverse proxy set up to serve the static files and redirect some requests to the gunicorn webserver gateway interface.
 
