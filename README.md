@@ -25,25 +25,16 @@ METHOD ONE:
 METHOD TWO:
 1.	As mentioned earlier, the Backend application is containerized, therefore you need to install Docker on your PC before we proceed.
 2.	Clone this git repo on your PC.
-3.	
 4.	Create an .env file and fill it with the credentials as shown in the template named as .env-example, the .env file must be in the same folder as Dockerfile or .env-example.
-5.	
 6.	Open CMD inside the same folder as Dockerfile of our project.
-7.	
 8.	Run the following commands:
     o	docker build -t securi-image .
     o	docker run --name securi-back -p 8000:8000 -d securi-image
-
 8.	By this run, we are assuming that on your pc, port 8000 is free and can be used. Otherwise you can use any other port above 1000 if 8000 is used by another application.
-9.	
 10.	Now your API backend is running at http://localhost:8000/api/ - this url is required by your frontend. The .env file of your frontend should have this as the API_URL.
-11.	
 12.	If your frontend was already set up, you should be able to login to your application using the superuser credentials stored in the .env file.
-13.	
 14.	You can login to the backend admin site at http://localhost:8000/admin/ to do manage your models and permissions as a superuser.
-15.	
 16.	You can also login to your frontend application as an ordinary user, using the frontend url endpoint.
-17.	
 18.	After login to the frontend, you can upload the json files on the Upload Data page.
 19.	Cheers! That's it.
 
