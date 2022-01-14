@@ -22,7 +22,7 @@ METHOD ONE:
 4.	o	docker run --name sec-front -p 3000:80 -d francoudev/securitree-repo:securitree-frontend
 5.  o	docker run --name sec-back -e SUPERUSER_USERNAME=yourusername -e SUPERUSER_PASSWORD=yourpassword -p 8000:8000 -d francoudev/securitree-repo:securitree-backend
   
-6.	This pulls the application images from docker hub and runs the applications. The superuser credentials to login to the application can be obtained from the owner of the docker repository. Open the browser and navigate to http://localhost:3000. Alternatively to set your own superuser credentials, you can clone this repo, set your own credentials in the .env environment variables and rebuild the image then run. How to do this? See method 2 below.
+6.	This pulls the application images from docker hub and runs the applications. The superuser credentials to login to the application are the values you specify above. Open the browser and navigate to http://localhost:3000. Alternatively to set your own default superuser credentials, you can clone this repo, set your own credentials in the .env environment variables and rebuild the image then run. How to do this? See method 2 below.
 
 
 METHOD TWO:
